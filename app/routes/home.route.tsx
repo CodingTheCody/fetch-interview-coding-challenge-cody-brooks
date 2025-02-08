@@ -43,9 +43,9 @@ export default function HomeRoute() {
 	const [dogResults, setDogResults] = useState<IDog[] | undefined>(undefined);
 	const dogsService = container.resolve(DogsService);
 
-	const onSearchFormSubmit = useCallback((query: ISearchDogsQuery) => {
+	const searchForDogs = useCallback((query: ISearchDogsQuery) => {
 		setDogResults(undefined); // show loader
-		const queryWithPagination: ISearchDogsQuery = Object.assign({}, query, {
+		const queryWithPagination: ISearchDogsQuery = Object.assign({}, lastQuery, {
 			from: (currentPage - 1) * (DEFAULT_QUERY.size as number)
 		} as ISearchDogsQuery);
 		setLastQuery(queryWithPagination);
@@ -53,6 +53,11 @@ export default function HomeRoute() {
 			setTotalDogResults(dogs.total);
 			setDogResultIds(dogs.resultIds);
 		});
+	}, [currentPage]);
+
+	const onSearchFormSubmit = useCallback((query: ISearchDogsQuery) => {
+		setCurrentPage(1);
+		searchForDogs(query);
 	}, [currentPage, lastQuery]);
 
 	const handlePageChange = useCallback((event: React.ChangeEvent<unknown>, value: number) => {
@@ -68,9 +73,9 @@ export default function HomeRoute() {
 		});
 	}, [dogResultIds]);
 
-	// initial default search and page change search
+	// initial default search
 	useEffect(() => {
-		onSearchFormSubmit(DEFAULT_QUERY);
+		searchForDogs(lastQuery);
 	}, [currentPage]);
 
 	return <Container className="home-route">
@@ -82,7 +87,7 @@ export default function HomeRoute() {
 			</Grid>
 			<Grid size={{xs: 12, md: 8}}>
 				<Item className="home-route-scrollable">
-					{dogResults === undefined && <img alt='loading' src="loading-dog.gif" style={{
+					{dogResults === undefined && <img alt="loading" src="loading-dog.gif" style={{
 						position: 'absolute',
 						left: '50%',
 						top: '50%',

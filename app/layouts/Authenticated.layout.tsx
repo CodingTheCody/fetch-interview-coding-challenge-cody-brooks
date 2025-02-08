@@ -6,7 +6,7 @@ import {AppBar, Box, Toolbar, Button} from '@mui/material';
 
 const authService = container.resolve(AuthService);
 
-export default function AuthenticatedLayout({children}: {children: JSX.Element}) {
+export default function AuthenticatedLayout() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
