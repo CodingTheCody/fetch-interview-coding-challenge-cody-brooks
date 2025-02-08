@@ -45,7 +45,7 @@ export default function HomeRoute() {
 
 	const searchForDogs = useCallback((query: ISearchDogsQuery) => {
 		setDogResults(undefined); // show loader
-		const queryWithPagination: ISearchDogsQuery = Object.assign({}, lastQuery, {
+		const queryWithPagination: ISearchDogsQuery = Object.assign({}, query, {
 			from: (currentPage - 1) * (DEFAULT_QUERY.size as number)
 		} as ISearchDogsQuery);
 		setLastQuery(queryWithPagination);
