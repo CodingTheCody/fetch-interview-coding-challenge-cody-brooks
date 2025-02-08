@@ -57,7 +57,6 @@ export default function HomeRoute() {
 
 	const handlePageChange = useCallback((event: React.ChangeEvent<unknown>, value: number) => {
 		setCurrentPage(value);
-		onSearchFormSubmit(lastQuery);
 	}, [lastQuery]);
 
 	// get dog infos by dog ids
@@ -69,10 +68,10 @@ export default function HomeRoute() {
 		});
 	}, [dogResultIds]);
 
-	// initial default search
+	// initial default search and page change search
 	useEffect(() => {
 		onSearchFormSubmit(DEFAULT_QUERY);
-	}, []);
+	}, [currentPage]);
 
 	return <Container className="home-route">
 		<Grid container spacing={2} style={{position: 'relative', height: 'calc(100vh - 64px)'}}>

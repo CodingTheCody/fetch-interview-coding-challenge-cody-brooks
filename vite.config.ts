@@ -4,13 +4,15 @@ import {defineConfig} from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import EnvironmentPlugin from 'vite-plugin-environment';
 import mkcert from 'vite-plugin-mkcert';
-// import eslint from 'vite-plugin-eslint';
+// @ts-ignore (not sure why this throws an error, it works perfectly fine, hopefully it isn't an issue for someone else)
+import eslintPlugin from 'vite-plugin-eslint';
 
 export default defineConfig({
 	server: {
 		proxy: {},
 	},
 	plugins: [
+		eslintPlugin(),
 		mkcert(),
 		tailwindcss(),
 		reactRouter(),
