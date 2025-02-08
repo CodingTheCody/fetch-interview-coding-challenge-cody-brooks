@@ -1,6 +1,6 @@
 import {AuthService} from '~/services/Auth.service';
 import {useNavigate, Outlet} from 'react-router';
-import React, {JSX, useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {container} from 'tsyringe';
 import {AppBar, Box, Toolbar, Button} from '@mui/material';
 
