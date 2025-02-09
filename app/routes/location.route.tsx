@@ -26,7 +26,7 @@ export default function LocationSearch() {
 		setLoading(true);
 
 		try {
-			let requestBody: ILocationSearchBody = {};
+			let requestBody: ILocationSearchBody;
 
 			if (STATE_ABBREVIATIONS.has(deferredQuery.toUpperCase())) {
 				requestBody = {states: [deferredQuery.toUpperCase()]};
