@@ -13,7 +13,7 @@ export default defineConfig({
 	},
 	plugins: [
 		eslintPlugin(),
-		mkcert(),
+		process.env.NODE_ENV !== 'production' && mkcert(),
 		tailwindcss(),
 		reactRouter(),
 		tsconfigPaths(),
