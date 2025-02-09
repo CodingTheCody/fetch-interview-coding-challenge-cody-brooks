@@ -7,7 +7,7 @@ describe('HttpService', () => {
 	let server: http.Server;
 
 	beforeAll(async () => {
-		return new Promise<void>((resolve, reject) => {
+		return new Promise<void>((resolve) => {
 			server = http.createServer((req, res) => {
 				res.writeHead(200);
 				res.end('Hello world');

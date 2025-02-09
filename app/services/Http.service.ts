@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import type {IHttpOptions} from '~/interfaces/IHttpOptions.interface';
 import {removeUndefinedOrNullProperties} from '~/utils/removeUndefinedOrNullProperties';
 import type {CommonHttpHeaders} from '~/types/CommonHttpHeaders.type';

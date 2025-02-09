@@ -1,6 +1,7 @@
-import {createTheme} from '@mui/system';
+import {createTheme, colors} from '@mui/material';
 
 const theme = createTheme({
+	cssVariables: true,
 	palette: {
 		primary: {
 			main: '#556cd6',
@@ -9,7 +10,7 @@ const theme = createTheme({
 			main: '#19857b',
 		},
 		error: {
-			main: 'red',
+			main: colors.red.A400,
 		},
 	},
 });

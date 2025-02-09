@@ -1,4 +1,9 @@
-import 'reflect-metadata';
+import * as Reflect from "reflect-metadata";
+
+if (!Reflect) {
+	throw new Error("reflect-metadata is required for tsyringe");
+}
+
 import {
 	isRouteErrorResponse,
 	Links,
