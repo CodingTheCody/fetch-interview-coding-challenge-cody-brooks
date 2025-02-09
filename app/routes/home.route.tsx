@@ -1,5 +1,5 @@
 import type {Route} from './+types/home.route';
-import {Container, Pagination} from '@mui/material';
+import {Container, Pagination, BottomNavigation} from '@mui/material';
 import React, {useState, useEffect, useCallback} from 'react';
 import {styled} from '@mui/system';
 import Paper from '@mui/material/Paper';
@@ -78,39 +78,39 @@ export default function HomeRoute() {
 		searchForDogs(lastQuery);
 	}, [currentPage]);
 
-	return <Container className="home-route">
-		<Grid container spacing={2} style={{position: 'relative', height: 'calc(100vh - 64px)'}}>
-			<Grid size={{xs: 12, md: 4}}>
-				<Item>
-					<DogSearchForm onSubmit={onSearchFormSubmit}/>
-				</Item>
+	return <>
+		<Container className="home-route">
+			<Grid container spacing={2}>
+				<Grid size={{xs: 12, md: 4}}>
+					<Item>
+						<DogSearchForm onSubmit={onSearchFormSubmit}/>
+					</Item>
+				</Grid>
+				<Grid size={{xs: 12, md: 8}}>
+					<Item className="home-route-scrollable">
+						{dogResults === undefined && <img alt="loading" src="loading-dog.gif" style={{
+							position: 'absolute',
+							left: '50%',
+							top: '50%',
+							transform: 'translate(-50%, -50%)'
+						}}/>}
+						{dogResults && <Grid container spacing={2}>
+							{dogResults.map((dog) => (
+								<Grid key={dog.id} size={{xs: 12, sm: 6, md: 4}}>
+									<DogCard dog={dog}/>
+								</Grid>
+							))}
+                        </Grid>}
+					</Item>
+				</Grid>
 			</Grid>
-			<Grid size={{xs: 12, md: 8}}>
-				<Item className="home-route-scrollable">
-					{dogResults === undefined && <img alt="loading" src="loading-dog.gif" style={{
-						position: 'absolute',
-						left: '50%',
-						top: '50%',
-						transform: 'translate(-50%, -50%)'
-					}}/>}
-					{dogResults && <Grid container spacing={2}>
-						{dogResults.map((dog) => (
-							<Grid key={dog.id} size={{xs: 12, sm: 6, md: 4}}>
-								<DogCard dog={dog}/>
-							</Grid>
-						))}
-                    </Grid>}
-				</Item>
-			</Grid>
-			<Grid size={12} style={{position: 'absolute', bottom: 0, alignItems: 'center'}}>
-				<Item>
-					<Pagination
-						page={currentPage}
-						count={Math.ceil(totalDogResults / (DEFAULT_QUERY.size as number))}
-						onChange={handlePageChange}
-					/>
-				</Item>
-			</Grid>
-		</Grid>
-	</Container>
+		</Container>
+		<BottomNavigation sx={{position: 'sticky', bottom: 0, width: '100%', py: 1}}>
+			<Pagination
+				page={currentPage}
+				count={Math.ceil(totalDogResults / (DEFAULT_QUERY.size as number))}
+				onChange={handlePageChange}
+			/>
+		</BottomNavigation>
+	</>
 }

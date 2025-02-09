@@ -8,13 +8,18 @@ import {hasOwnProperty} from '~/utils/hasOwnProperty';
 @singleton()
 export class HttpService {
 	public readonly _defaultHeaders: Record<CommonHttpHeaders | string, string> = {};
+	public _globalErrorHandler?: (err: HttpServiceResponseError) => void;
 
 	public async fetch(input: RequestInfo | URL, init?: RequestInit) {
 		if (!init) init = {};
 		init.credentials = 'include';
 		const response = await fetch(input, init);
 		if (!response.ok) {
-			throw new HttpServiceResponseError('The request failed', response);
+			const error = new HttpServiceResponseError('The request failed', response);
+
+			if (this._globalErrorHandler) this._globalErrorHandler(error);
+
+			throw error;
 		}
 		return response;
 	}
@@ -86,5 +91,9 @@ export class HttpService {
 		for (const key of Object.keys(headers)) {
 			this.setDefaultHeader(key, headers[key]);
 		}
+	}
+
+	public setGlobalErrorHandler(errorHandler: (err: HttpServiceResponseError) => any) {
+		this._globalErrorHandler = errorHandler;
 	}
 }
