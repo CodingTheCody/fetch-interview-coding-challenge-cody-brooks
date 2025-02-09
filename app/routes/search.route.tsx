@@ -1,9 +1,7 @@
 import type {Route} from './+types/search.route';
-import {Container, Pagination, BottomNavigation, Typography, Button, AppBar} from '@mui/material';
+import {Grid2 as Grid, Container, Pagination, Typography, Button, AppBar, Paper} from '@mui/material';
 import React, {useState, useEffect, useCallback} from 'react';
 import {styled} from '@mui/system';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid2';
 import {container} from 'tsyringe';
 import {DogsService} from '~/services/Dogs.service';
 import {IDog} from '~/interfaces/IDog.interface';
