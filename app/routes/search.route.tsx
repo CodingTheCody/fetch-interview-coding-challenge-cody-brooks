@@ -93,10 +93,10 @@ export default function SearchRoute() {
 								To location search
 							</Button>
 						</Link>
-						{dogResults === undefined && <img alt="loading" src="loading-dog.gif" width="100%"/>}
+						{dogResults === undefined && <img alt="loading" src="loading-dog.gif" style={{width: '100%'}}/>}
 						{dogResults && dogResults.length === 0 &&
                             <>
-                                <img src="no-dogs-found.gif" alt="no-dogs-found" width="100%"/>
+                                <img src="no-dogs-found.gif" alt="no-dogs-found" style={{width: '100%'}}/>
                                 <Typography variant={'h5'}>No dogs found</Typography>
                             </>
 						}
