@@ -1,5 +1,5 @@
-import type {Route} from './+types/home.route';
-import {Container, Pagination, BottomNavigation} from '@mui/material';
+import type {Route} from './+types/search.route';
+import {Container, Pagination, BottomNavigation, Typography, Button, AppBar} from '@mui/material';
 import React, {useState, useEffect, useCallback} from 'react';
 import {styled} from '@mui/system';
 import Paper from '@mui/material/Paper';
@@ -9,8 +9,8 @@ import {DogsService} from '~/services/Dogs.service';
 import {IDog} from '~/interfaces/IDog.interface';
 import {DogCard} from '~/components/DogCard.component';
 import {ISearchDogsQuery} from '~/interfaces/ISearchDogsQuery.interface';
-import './home.route.scss';
 import {DogSearchForm} from '~/components/DogSearchForm.component';
+import {useLocation, Link} from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -35,7 +35,8 @@ const DEFAULT_QUERY: ISearchDogsQuery = {
 	ageMax: 30,
 };
 
-export default function HomeRoute() {
+export default function SearchRoute() {
+	const location = useLocation();
 	const [lastQuery, setLastQuery] = useState(DEFAULT_QUERY);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [dogResultIds, setDogResultIds] = useState<string[]>([]);
@@ -46,7 +47,8 @@ export default function HomeRoute() {
 	const searchForDogs = useCallback((query: ISearchDogsQuery) => {
 		setDogResults(undefined); // show loader
 		const queryWithPagination: ISearchDogsQuery = Object.assign({}, query, {
-			from: (currentPage - 1) * (DEFAULT_QUERY.size as number)
+			from: (currentPage - 1) * (DEFAULT_QUERY.size as number),
+			zipCodes: location.state?.zipCode ? [location.state.zipCode] : undefined,
 		} as ISearchDogsQuery);
 		setLastQuery(queryWithPagination);
 		dogsService.searchDogs(queryWithPagination).then((dogs) => {
@@ -83,17 +85,23 @@ export default function HomeRoute() {
 			<Grid container spacing={2}>
 				<Grid size={{xs: 12, md: 4}}>
 					<Item>
-						<DogSearchForm onSubmit={onSearchFormSubmit}/>
+						<DogSearchForm defaultQuery={DEFAULT_QUERY} onSubmit={onSearchFormSubmit}/>
 					</Item>
 				</Grid>
 				<Grid size={{xs: 12, md: 8}}>
 					<Item className="home-route-scrollable">
-						{dogResults === undefined && <img alt="loading" src="loading-dog.gif" style={{
-							position: 'absolute',
-							left: '50%',
-							top: '50%',
-							transform: 'translate(-50%, -50%)'
-						}}/>}
+						<Link to="/">
+							<Button variant="outlined" size="large" style={{marginBottom: '0.5em'}}>
+								To location search
+							</Button>
+						</Link>
+						{dogResults === undefined && <img alt="loading" src="loading-dog.gif" width="100%"/>}
+						{dogResults && dogResults.length === 0 &&
+                            <>
+                                <img src="no-dogs-found.gif" alt="no-dogs-found" width="100%"/>
+                                <Typography variant={'h5'}>No dogs found</Typography>
+                            </>
+						}
 						{dogResults && <Grid container spacing={2}>
 							{dogResults.map((dog) => (
 								<Grid key={dog.id} size={{xs: 12, sm: 6, md: 4}}>
@@ -105,12 +113,12 @@ export default function HomeRoute() {
 				</Grid>
 			</Grid>
 		</Container>
-		<BottomNavigation sx={{position: 'sticky', bottom: 0, width: '100%', py: 1}}>
+		<AppBar sx={{position: 'sticky', bottom: 0, width: '100%', py: 1}}>
 			<Pagination
 				page={currentPage}
 				count={Math.ceil(totalDogResults / (DEFAULT_QUERY.size as number))}
 				onChange={handlePageChange}
 			/>
-		</BottomNavigation>
+		</AppBar>
 	</>
 }

@@ -23,6 +23,7 @@ export class LocationsService {
 	 * Returns an array of Location objects.
 	 */
 	public async searchLocationByZipCodes(zipCodes: string[]): Promise<ILocation[]> {
+		if (zipCodes.length > 100) throw new Error('Only 100 zip codes are allowed');
 		return this.httpService.post(`${process.env.VITE_API_BASE_URI}/locations`, zipCodes);
 	}
 

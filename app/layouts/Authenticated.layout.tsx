@@ -2,9 +2,8 @@ import {AuthService} from '~/services/Auth.service';
 import {useNavigate, Outlet} from 'react-router';
 import React, {useCallback, useEffect} from 'react';
 import {container} from 'tsyringe';
-import {AppBar, Box, Toolbar, Button, Container} from '@mui/material';
+import {AppBar, Toolbar, Button, Container} from '@mui/material';
 import {HttpService} from '~/services/Http.service';
-import Grid from '@mui/material/Grid2';
 
 const authService = container.resolve(AuthService);
 const httpService = container.resolve(HttpService);

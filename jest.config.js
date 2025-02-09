@@ -5,16 +5,13 @@ export default {
     preset: 'ts-jest/presets/default-esm',
     bail: true,
     moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
-    rootDir: './app',
+    rootDir: '.',
     modulePaths: [
         '<rootDir>',
         '<rootDir>/app',
     ],
     testMatch: [
-        '<rootDir>/**/*.spec.ts',
-        '<rootDir>/**/*.spec.ts',
-        '<rootDir>/**/*.test.tsx',
-        '<rootDir>/**/*.test.tsx',
+        '<rootDir>/__tests__/**/*.test.ts?(x)',
     ],
     injectGlobals: true,
     testEnvironment: 'jsdom',
@@ -40,8 +37,8 @@ export default {
         ],
     },
     verbose: true,
-    setupFilesAfterEnv: ['<rootDir>/globalJestSetup.ts'],
+    setupFilesAfterEnv: ['<rootDir>/app/globalJestSetup.ts'],
     "moduleNameMapper": {
-        "~/(.*)": "<rootDir>/$1"
+        "~/(.*)": "<rootDir>/app/$1"
     },
 };

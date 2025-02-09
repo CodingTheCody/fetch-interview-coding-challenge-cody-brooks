@@ -63,12 +63,21 @@ export function DogSearchForm({onSubmit, defaultQuery}: {
 		onSubmit(query)
 	}, [onSubmit, selectedBreeds, ageMin, ageMax, sortTitle]);
 
+	const handleReset = useCallback(() => {
+		if (!defaultQuery) return;
+		setBreeds(defaultQuery.breeds);
+		setSortTitle('None');
+		setAgeMin(defaultQuery.ageMin || 0);
+		setAgeMax(defaultQuery.ageMax || 25);
+	}, [defaultQuery]);
+
 	return <form onSubmit={onSubmitCallback}>
 		<Typography variant="h6" gutterBottom>
 			Sort
 		</Typography>
-		<Select variant="outlined" style={{width: '100%', marginBottom: 15}} onChange={handleSortChange} value={sortTitle}>
-			{SORTABLES.map(s => <MenuItem value={s.title} title={s.title}>{s.title}</MenuItem>)}
+		<Select variant="outlined" style={{width: '100%', marginBottom: 15}} onChange={handleSortChange}
+				value={sortTitle}>
+			{SORTABLES.map((s, index) => <MenuItem key={index} value={s.title} title={s.title}>{s.title}</MenuItem>)}
 		</Select>
 
 		<BreedsFilter breeds={breeds as string[]} selectedBreeds={selectedBreeds}
@@ -77,7 +86,8 @@ export function DogSearchForm({onSubmit, defaultQuery}: {
 			setAgeMin(min);
 			setAgeMax(max);
 		}}/>
-		<Button style={{width: '100%'}} variant="outlined" type="submit">Search</Button>
+		<Button style={{width: '100%', marginBottom: 15}} variant="outlined" type="submit">Search</Button>
+		<Button style={{width: '100%'}} variant="outlined" onClick={handleReset}>Reset</Button>
 	</form>
 
 }

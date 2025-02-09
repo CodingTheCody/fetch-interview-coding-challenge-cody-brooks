@@ -16,7 +16,7 @@
 export interface ILocationSearchBody {
 	city?: string;
 	states?: string[];
-	geoBoundingBox: {
+	geoBoundingBox?: {
 		lat: number,
 		lon: number
 	} & ({
