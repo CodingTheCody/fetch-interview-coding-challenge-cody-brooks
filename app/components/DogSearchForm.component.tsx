@@ -1,12 +1,32 @@
-import {FormEvent, useEffect, useState, useCallback} from 'react';
+import React, {FormEvent, useEffect, useState, useCallback} from 'react';
 import {BreedsFilter} from '~/components/BreedsFilter.component';
-import {Button} from '@mui/material';
+import {Button, Select, MenuItem, Typography, SelectChangeEvent} from '@mui/material';
 import {container} from 'tsyringe';
 import {DogsService} from '~/services/Dogs.service';
 import {ISearchDogsQuery} from '~/interfaces/ISearchDogsQuery.interface';
 import {AgeSlider} from '~/components/AgeSlider.component';
+import {ISortable} from '~/interfaces/ISortable.interface';
+import {DogSortableKeys} from '~/types/DogSortableKeys.type';
 
 const dogsService = container.resolve(DogsService);
+
+const SORTABLES: {
+	title: string;
+	sort: ISortable<DogSortableKeys> | undefined
+}[] = [
+	{
+		title: 'None',
+		sort: undefined,
+	},
+	{
+		title: 'Youngest First',
+		sort: {sort: 'age', order: 'asc'}
+	},
+	{
+		title: 'Oldest First',
+		sort: {sort: 'age', order: 'desc'}
+	},
+];
 
 export function DogSearchForm({onSubmit, defaultQuery}: {
 	onSubmit: (query: ISearchDogsQuery) => void,
@@ -16,6 +36,7 @@ export function DogSearchForm({onSubmit, defaultQuery}: {
 	const [selectedBreeds, setSelectedBreeds] = useState<string[]>([]);
 	const [ageMin, setAgeMin] = useState(defaultQuery?.ageMin || 0);
 	const [ageMax, setAgeMax] = useState(defaultQuery?.ageMax || 0);
+	const [sortTitle, setSortTitle] = useState<string>('None');
 
 	// get breeds (1 time call)
 	useEffect(() => {
@@ -25,18 +46,31 @@ export function DogSearchForm({onSubmit, defaultQuery}: {
 		});
 	}, []);
 
+	const handleSortChange = useCallback((event: SelectChangeEvent) => {
+		setSortTitle(event.target.value)
+	}, []);
+
 	const onSubmitCallback = useCallback((evt: FormEvent) => {
 		evt.preventDefault();
+		const sort = SORTABLES.find(s => s.title === sortTitle)?.sort;
 		const query: ISearchDogsQuery = {
 			breeds: selectedBreeds.length === 0 ? undefined : selectedBreeds,
 			ageMin,
 			ageMax,
 			size: defaultQuery?.size || 10,
+			sort,
 		};
 		onSubmit(query)
-	}, [onSubmit, selectedBreeds, ageMin, ageMax]);
+	}, [onSubmit, selectedBreeds, ageMin, ageMax, sortTitle]);
 
 	return <form onSubmit={onSubmitCallback}>
+		<Typography variant="h6" gutterBottom>
+			Sort
+		</Typography>
+		<Select variant="outlined" style={{width: '100%', marginBottom: 15}} onChange={handleSortChange} value={sortTitle}>
+			{SORTABLES.map(s => <MenuItem value={s.title} title={s.title}>{s.title}</MenuItem>)}
+		</Select>
+
 		<BreedsFilter breeds={breeds as string[]} selectedBreeds={selectedBreeds}
 					  setSelectedBreeds={setSelectedBreeds}/>
 		<AgeSlider onAgeChange={(min, max) => {

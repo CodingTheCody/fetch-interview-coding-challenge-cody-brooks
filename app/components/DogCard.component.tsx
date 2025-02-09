@@ -1,5 +1,5 @@
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import {type IDog} from '../interfaces/IDog.interface';
+import {type IDog} from '~/interfaces/IDog.interface';
 import React from 'react';
 
 export const DogCard: React.FC<{ dog: IDog }> = ({ dog }) => (
@@ -8,8 +8,7 @@ export const DogCard: React.FC<{ dog: IDog }> = ({ dog }) => (
 		<CardContent>
 			<Typography variant="h6">{dog.name}</Typography>
 			<Typography>Breed: {dog.breed}</Typography>
-			<Typography>Age: {dog.age} years</Typography>
-			<Typography>Location: {dog.zip_code}</Typography>
+			<Typography>Age: {dog.age === 0 ? `Under 1 years` : dog.age + ` year${dog.age === 1 ? '' : 's'}`} old</Typography>
 		</CardContent>
 	</Card>
 );
