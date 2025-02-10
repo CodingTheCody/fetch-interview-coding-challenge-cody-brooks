@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 import {Container, Box, Typography, TextField, Button, Alert} from '@mui/material';
 import {useState, useCallback, useEffect} from 'react';
 import {FetchLogoSvg} from '~/components/FetchLogoSvg.component';

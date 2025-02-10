@@ -27,7 +27,7 @@ const Item = styled(Paper)(({theme}) => ({
 }));
 
 const DEFAULT_QUERY: ISearchDogsQuery = {
-	size: 10,
+	size: 20,
 	from: 0,
 	ageMin: 0,
 	ageMax: 30,

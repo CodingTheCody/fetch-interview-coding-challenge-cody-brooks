@@ -26,6 +26,14 @@ const SORTABLES: {
 		title: 'Oldest First',
 		sort: {sort: 'age', order: 'desc'}
 	},
+	{
+		title: 'Breed (A-Z)',
+		sort: {sort: 'breed', order: 'asc'},
+	},
+	{
+		title: 'Breed (Z-A)',
+		sort: {sort: 'breed', order: 'desc'},
+	},
 ];
 
 export function DogSearchForm({onSubmit, defaultQuery}: {
@@ -57,7 +65,7 @@ export function DogSearchForm({onSubmit, defaultQuery}: {
 			breeds: selectedBreeds.length === 0 ? undefined : selectedBreeds,
 			ageMin,
 			ageMax,
-			size: defaultQuery?.size || 10,
+			size: defaultQuery?.size || 20,
 			sort,
 		};
 		onSubmit(query)

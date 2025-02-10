@@ -1,4 +1,4 @@
-import * as Reflect from "reflect-metadata";
+import "reflect-metadata";
 
 if (!Reflect) {
 	throw new Error("reflect-metadata is required for tsyringe");
