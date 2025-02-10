@@ -1,5 +1,16 @@
 import type {Route} from './+types/search.route';
-import {Grid2 as Grid, Container, Pagination, Typography, Button, AppBar, Paper} from '@mui/material';
+import {
+	Grid2 as Grid,
+	Container,
+	Pagination,
+	Typography,
+	Button,
+	AppBar,
+	Paper,
+	Select,
+	MenuItem,
+	SelectChangeEvent, Box
+} from '@mui/material';
 import React, {useState, useEffect, useCallback} from 'react';
 import {styled} from '@mui/system';
 import {container} from 'tsyringe';
@@ -35,6 +46,7 @@ const DEFAULT_QUERY: ISearchDogsQuery = {
 
 export default function SearchRoute() {
 	const location = useLocation();
+	const [resultsPerPage, setResultsPerPage] = useState(DEFAULT_QUERY.size as number);
 	const [lastQuery, setLastQuery] = useState(DEFAULT_QUERY);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [dogResultIds, setDogResultIds] = useState<string[]>([]);
@@ -45,15 +57,16 @@ export default function SearchRoute() {
 	const searchForDogs = useCallback((query: ISearchDogsQuery) => {
 		setDogResults(undefined); // show loader
 		const queryWithPagination: ISearchDogsQuery = Object.assign({}, query, {
-			from: (currentPage - 1) * (DEFAULT_QUERY.size as number),
+			from: (currentPage - 1) * resultsPerPage,
 			zipCodes: location.state?.zipCode ? [location.state.zipCode] : undefined,
+			size: resultsPerPage,
 		} as ISearchDogsQuery);
 		setLastQuery(queryWithPagination);
 		dogsService.searchDogs(queryWithPagination).then((dogs) => {
 			setTotalDogResults(dogs.total);
 			setDogResultIds(dogs.resultIds);
 		});
-	}, [currentPage]);
+	}, [currentPage, resultsPerPage]);
 
 	const onSearchFormSubmit = useCallback((query: ISearchDogsQuery) => {
 		setCurrentPage(1);
@@ -63,6 +76,11 @@ export default function SearchRoute() {
 	const handlePageChange = useCallback((event: React.ChangeEvent<unknown>, value: number) => {
 		setCurrentPage(value);
 	}, [lastQuery]);
+
+	const handleResultsPerPageChange = useCallback((event: SelectChangeEvent<number>) => {
+		setResultsPerPage(event.target.value as number);
+		setCurrentPage(1);
+	}, []);
 
 	// get dog infos by dog ids
 	useEffect(() => {
@@ -76,13 +94,13 @@ export default function SearchRoute() {
 	// initial default search
 	useEffect(() => {
 		searchForDogs(lastQuery);
-	}, [currentPage]);
+	}, [currentPage, resultsPerPage]);
 
 	return <>
 		<Container className="home-route">
 			<Grid container spacing={2}>
 				<Grid size={{xs: 12, md: 4}}>
-					<Item>
+					<Item style={{position: 'sticky'}} sx={{position: 'sticky', top: 64}}>
 						<DogSearchForm defaultQuery={DEFAULT_QUERY} onSubmit={onSearchFormSubmit}/>
 					</Item>
 				</Grid>
@@ -111,12 +129,26 @@ export default function SearchRoute() {
 				</Grid>
 			</Grid>
 		</Container>
-		<AppBar sx={{position: 'sticky', bottom: 0, width: '100%', py: 1}}>
-			<Pagination
-				page={currentPage}
-				count={Math.ceil(totalDogResults / (DEFAULT_QUERY.size as number))}
-				onChange={handlePageChange}
-			/>
-		</AppBar>
+		<Container sx={{background: 'white', position: 'sticky', bottom: 0, width: '100%', py: 1}}>
+			<Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+				<Pagination
+					style={{margin: 'auto'}}
+					page={currentPage}
+					count={Math.ceil(totalDogResults / resultsPerPage)}
+					onChange={handlePageChange}
+				/>
+				<Select
+					size="small"
+					value={resultsPerPage}
+					onChange={handleResultsPerPageChange}
+					style={{marginLeft: '0.5em', width: 100}}
+				>
+					<MenuItem value={10}>10</MenuItem>
+					<MenuItem value={20}>20</MenuItem>
+					<MenuItem value={50}>50</MenuItem>
+					<MenuItem value={100}>100</MenuItem>
+				</Select>
+			</Box>
+		</Container>
 	</>
 }

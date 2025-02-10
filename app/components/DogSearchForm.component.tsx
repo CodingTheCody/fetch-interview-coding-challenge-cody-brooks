@@ -36,9 +36,10 @@ const SORTABLES: {
 	},
 ];
 
-export function DogSearchForm({onSubmit, defaultQuery}: {
+export function DogSearchForm({onSubmit, defaultQuery, style}: {
 	onSubmit: (query: ISearchDogsQuery) => void,
 	defaultQuery?: ISearchDogsQuery,
+	style?: React.CSSProperties
 }) {
 	const [breeds, setBreeds] = useState<string[] | undefined>(defaultQuery?.breeds);
 	const [selectedBreeds, setSelectedBreeds] = useState<string[]>([]);
@@ -79,7 +80,7 @@ export function DogSearchForm({onSubmit, defaultQuery}: {
 		setAgeMax(defaultQuery.ageMax || 25);
 	}, [defaultQuery]);
 
-	return <form onSubmit={onSubmitCallback}>
+	return <form className='dog-search-form' style={style} onSubmit={onSubmitCallback}>
 		<Typography variant="h6" gutterBottom>
 			Sort
 		</Typography>
