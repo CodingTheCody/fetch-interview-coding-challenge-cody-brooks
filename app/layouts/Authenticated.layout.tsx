@@ -40,9 +40,7 @@ export default function AuthenticatedLayout() {
 					<Button color="inherit" onClick={handleLogout}>Logout</Button>
 					<span style={{flexGrow: 1}}></span>
 					<span>Developer Tooltips? &nbsp;</span>
-					<Tooltip title="Developer note tooltips toggle" sx={{backgroundColor: 'background.paper', borderRadius: 3}}>
-						<Switch value={tooltipsEnabled} onChange={handleDeveloperTooltipsToggle}/>
-					</Tooltip>
+					<Switch value={tooltipsEnabled} onChange={handleDeveloperTooltipsToggle}/>
 				</Toolbar>
 			</AppBar>
 
