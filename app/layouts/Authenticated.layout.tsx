@@ -2,7 +2,7 @@ import {AuthService} from '~/services/Auth.service';
 import {useNavigate, Outlet} from 'react-router';
 import React, {useCallback, useEffect, ChangeEvent} from 'react';
 import {container} from 'tsyringe';
-import {AppBar, Toolbar, Button, Container, Switch, Tooltip} from '@mui/material';
+import {AppBar, Toolbar, Button, Container, Switch} from '@mui/material';
 import {HttpService} from '~/services/Http.service';
 import {TooltipContext} from '~/contexts/Tooltip.context';
 

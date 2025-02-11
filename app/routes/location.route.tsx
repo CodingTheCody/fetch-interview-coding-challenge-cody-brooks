@@ -6,10 +6,8 @@ import {ILocation} from '~/interfaces/ILocation.interface';
 import {LocationsService} from '~/services/Locations.service';
 import {Link, useNavigate} from 'react-router';
 import {FetchLogoSvg} from '~/components/FetchLogoSvg.component';
-import mapboxgl from 'mapbox-gl';
 import './location.route.scss';
 import {TriggerableTooltip} from '~/components/TriggerableTooltip.component';
-import {setState} from 'jest-circus';
 import {MapLocationSearchComponent} from '~/components/MapLocationSearch.component';
 
 const DEBOUNCE_DELAY_IN_MILLISECONDS = 500; // 500ms delay for API calls
@@ -20,9 +18,6 @@ export default function LocationSearch() {
 	const [query, setQuery] = useState('');
 	const [results, setResults] = useState<ILocation[]>([]);
 	const [loading, setLoading] = useState(false);
-	const [map, setMap] = useState<mapboxgl.Map | null>(null);
-	const mapDivRef = useRef<HTMLDivElement>(null);
-	const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
 
 	const deferredQuery = useDeferredValue(query.trim());
 
@@ -65,10 +60,7 @@ export default function LocationSearch() {
 			return value === `${location.city}, ${location.state} (${location.zip_code})`
 		}) as ILocation;
 
-		const locations = await locationsService.searchLocationsByGeolocation(location.longitude, location?.latitude);
-		debugger;
-
-		navigate('search', {state: {location}});
+		navigate('search', {state: {zipCodes: [location.zip_code]}});
 	}, [results]);
 
 	return (

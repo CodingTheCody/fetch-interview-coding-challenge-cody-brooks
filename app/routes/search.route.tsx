@@ -19,7 +19,6 @@ import {DogCard} from '~/components/DogCard.component';
 import {ISearchDogsQuery} from '~/interfaces/ISearchDogsQuery.interface';
 import {DogSearchForm} from '~/components/DogSearchForm.component';
 import {useLocation, Link} from 'react-router';
-import {ILocation} from '~/interfaces/ILocation.interface';
 import {SearchRouteState} from '~/routes/search.route.state';
 
 export function meta({}: Route.MetaArgs) {
