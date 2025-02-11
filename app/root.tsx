@@ -36,7 +36,7 @@ export const links: Route.LinksFunction = () => [
 export function Layout({children}: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
-		<head>
+		<head title="Fetch Takehome Challenge">
 			<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet"/>
 			<meta charSet="utf-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -48,6 +48,7 @@ export function Layout({children}: { children: React.ReactNode }) {
 			/>
 			<Meta/>
 			<Links/>
+			<title>Fetch Takehome Challenge</title>
 		</head>
 		<body>
 		<ThemeProvider theme={theme}>
