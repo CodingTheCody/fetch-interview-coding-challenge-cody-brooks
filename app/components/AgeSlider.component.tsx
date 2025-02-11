@@ -16,6 +16,7 @@ export function AgeSlider({onAgeChange}: { onAgeChange: (minAge: number, maxAge:
 				Age Range
 			</Typography>
 			<Slider
+				aria-label={'Age range'}
 				onChange={handleSliderChange}
 				value={ageRange}
 				valueLabelFormat={(value) => `${value} years`}

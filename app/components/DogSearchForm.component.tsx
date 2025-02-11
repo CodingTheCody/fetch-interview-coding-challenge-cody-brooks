@@ -80,11 +80,12 @@ export function DogSearchForm({onSubmit, defaultQuery, style}: {
 		setAgeMax(defaultQuery.ageMax || 25);
 	}, [defaultQuery]);
 
-	return <form className='dog-search-form' style={style} onSubmit={onSubmitCallback}>
+	return <form className="dog-search-form" style={style} onSubmit={onSubmitCallback}>
 		<Typography variant="h6" gutterBottom>
 			Sort
 		</Typography>
-		<Select variant="outlined" style={{width: '100%', marginBottom: 15}} onChange={handleSortChange}
+		<Select inputProps={{'aria-label': 'Sort autocomlete'}} variant="outlined"
+				style={{width: '100%', marginBottom: 15}} onChange={handleSortChange}
 				value={sortTitle}>
 			{SORTABLES.map((s, index) => <MenuItem key={index} value={s.title} title={s.title}>{s.title}</MenuItem>)}
 		</Select>

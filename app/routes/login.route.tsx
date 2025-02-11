@@ -1,5 +1,5 @@
 import {Container, Box, Typography, TextField, Button, Alert} from '@mui/material';
-import {useState, useCallback, useEffect} from 'react';
+import {useState, useCallback, useEffect, FormEvent} from 'react';
 import {FetchLogoSvg} from '~/components/FetchLogoSvg.component';
 import {useNavigate} from 'react-router';
 import {AuthService} from '~/services/Auth.service';
@@ -17,7 +17,8 @@ export default function LoginRoute() {
 
 	const isValidForm = name.length >= 3 && isValidEmail(email);
 
-	const onSubmitCallback = useCallback(async () => {
+	const onSubmitCallback = useCallback(async (evt: FormEvent<HTMLFormElement>) => {
+		evt.preventDefault();
 		setError(undefined);
 		const authService = container.resolve(AuthService);
 		try {
@@ -55,41 +56,43 @@ export default function LoginRoute() {
 					backgroundColor: 'background.paper',
 				}}
 			>
-				<Container sx={{justifyContent: 'center', display: 'flex'}}>
-					<FetchLogoSvg/>
-				</Container>
-				<Typography variant="h4" mb={2}>
-					Welcome to Cody's Fetch Coding Challenge
-				</Typography>
-				<Typography variant="h5" mb={2}>Login</Typography>
-				<TextField
-					fullWidth
-					label="Name"
-					margin="normal"
-					value={name}
-					onChange={(e) => setName(e.target.value)}
-				/>
-				<TextField
-					fullWidth
-					label="Email"
-					type="email"
-					margin="normal"
-					value={email}
-					onChange={(e) => setEmail(e.target.value)}
-				/>
-				<Button
-					fullWidth
-					variant="contained"
-					color="primary"
-					sx={{mt: 2}}
-					onClick={onSubmitCallback}
-					disabled={!isValidForm}
-				>
-					Submit
-				</Button>
-				<Alert severity='error' hidden={error === undefined}>
-					{error}
-				</Alert>
+				<form onSubmit={onSubmitCallback}>
+					<Container sx={{justifyContent: 'center', display: 'flex'}}>
+						<FetchLogoSvg/>
+					</Container>
+					<Typography variant="h4" mb={2}>
+						Welcome to Cody's Fetch Coding Challenge
+					</Typography>
+					<Typography variant="h5" mb={2}>Login</Typography>
+					<TextField
+						fullWidth
+						label="Name"
+						margin="normal"
+						value={name}
+						onChange={(e) => setName(e.target.value)}
+					/>
+					<TextField
+						fullWidth
+						label="Email"
+						type="email"
+						margin="normal"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+					/>
+					<Button
+						fullWidth
+						variant="contained"
+						color="primary"
+						sx={{mt: 2}}
+						type={'submit'}
+						disabled={!isValidForm}
+					>
+						Submit
+					</Button>
+					<Alert severity="error" hidden={error === undefined}>
+						{error}
+					</Alert>
+				</form>
 			</Box>
 		</Container>
 	);
