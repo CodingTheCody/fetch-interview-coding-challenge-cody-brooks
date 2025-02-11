@@ -1,5 +1,6 @@
 import {Autocomplete, TextField, Grid2, MenuItem} from '@mui/material';
 import React, {useState} from 'react';
+import {TriggerableTooltip} from '~/components/TriggerableTooltip.component';
 
 export function BreedsFilter({setSelectedBreeds, selectedBreeds, breeds}: {
 	setSelectedBreeds: (breeds: string[]) => void,
@@ -16,31 +17,35 @@ export function BreedsFilter({setSelectedBreeds, selectedBreeds, breeds}: {
 
 	return (
 		<Grid2>
-			<Autocomplete
-				freeSolo
-				multiple
-				value={selectedBreeds}
-				options={breeds as string[]}
-				inputValue={breedsInputValue}
-				onInputChange={(event, newInputValue) => {
-					setBreedsInputValue(newInputValue);
-				}}
-				onChange={(event, values) => {
-					setSelectedBreeds(values);
-				}}
-				renderInput={(params) => (
-					<TextField {...params} label="Breeds" variant="outlined"/>
-				)}
-				renderOption={(props, option) => (
-					<MenuItem
-						{...props}
-						key={option}
-						onClick={(event) => handleSelect(event as never, option)}
-					>
-						{option}
-					</MenuItem>
-				)}
-			/>
+			<TriggerableTooltip
+				title="I was not able to have it search for multiple breeds, but I was able to have it search for one breed at a time. This is an issue with the API.">
+				<Autocomplete
+					multiple
+					value={selectedBreeds}
+					options={breeds as string[]}
+					clearOnBlur={false}
+					disableCloseOnSelect={false}
+					inputValue={breedsInputValue}
+					onInputChange={(event, newInputValue) => {
+						setBreedsInputValue(newInputValue);
+					}}
+					onChange={(event, values) => {
+						setSelectedBreeds(values);
+					}}
+					renderInput={(params) => (
+						<TextField {...params} label="Breeds" variant="outlined"/>
+					)}
+					renderOption={(props, option) => (
+						<MenuItem
+							{...props}
+							key={option}
+							onClick={(event) => handleSelect(event as never, option)}
+						>
+							{option}
+						</MenuItem>
+					)}
+				/>
+			</TriggerableTooltip>
 		</Grid2>
 	);
 }

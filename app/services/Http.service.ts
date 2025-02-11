@@ -53,7 +53,7 @@ export class HttpService {
 				if (!hasOwnProperty(options.query, key)) continue;
 				const valueAtKey = options.query[key] as string | number | boolean;
 
-				if (typeof (options.query[key]) !== 'string') options.query[key] = valueAtKey.toString();
+				options.query[key] = valueAtKey.toString();
 			}
 			url += '?' + new URLSearchParams(options.query as Record<string, string>).toString();
 		}

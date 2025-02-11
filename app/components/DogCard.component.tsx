@@ -9,6 +9,7 @@ export const DogCard: React.FC<{ dog: IDog }> = ({ dog }) => (
 			<Typography variant="h6">{dog.name}</Typography>
 			<Typography>Breed: {dog.breed}</Typography>
 			<Typography>Age: {dog.age === 0 ? `Under 1 years` : dog.age + ` year${dog.age === 1 ? '' : 's'}`} old</Typography>
+			<Typography>Zip Code: {dog.zip_code}</Typography>
 		</CardContent>
 	</Card>
 );

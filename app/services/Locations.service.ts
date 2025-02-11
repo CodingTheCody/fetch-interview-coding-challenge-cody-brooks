@@ -1,11 +1,14 @@
-import {injectable, inject} from 'tsyringe';
+import {injectable, inject, container} from 'tsyringe';
 import {HttpService} from '~/services/Http.service';
 import {ILocationSearchBody} from '~/interfaces/ILocationSearchBody.interface';
 import {ILocation} from '~/interfaces/ILocation.interface';
+import {IResults} from '~/interfaces/IResults.interface';
+
 
 @injectable()
 export class LocationsService {
 	constructor(@inject(HttpService) private readonly httpService: HttpService) {
+		(window as any).cody = this;
 	}
 
 	/**
@@ -25,6 +28,30 @@ export class LocationsService {
 	public async searchLocationByZipCodes(zipCodes: string[]): Promise<ILocation[]> {
 		if (zipCodes.length > 100) throw new Error('Only 100 zip codes are allowed');
 		return this.httpService.post(`${process.env.VITE_API_BASE_URI}/locations`, zipCodes);
+	}
+
+	public async searchLocationsByGeolocation(lat: number, lon: number, distanceInMiles = 25): Promise<ILocation[]> {
+
+		// convert distanceInMiles to lat and long distance
+		// 1 degree of latitude is approximately 69 miles
+		// 1 degree of longitude is approximately 69 miles at the equator and gradually decreases to 0 miles at the poles
+		// 1 mile is approximately 0.0144927536 degrees
+		const distanceInDegrees = distanceInMiles * 0.0144927536;
+
+		const body: ILocationSearchBody = {
+			geoBoundingBox: {
+				bottom_left: {lat: lat - distanceInDegrees, lon: lon - distanceInDegrees},
+				top_right: {lat: lat + distanceInDegrees, lon: lon + distanceInDegrees},
+				// top: {lat: lat + distanceInDegrees, lon},
+				// left: {lat, lon: lon - distanceInDegrees},
+				// bottom: {lat: lat - distanceInDegrees, lon},
+				// right: {lat, lon: lon + distanceInDegrees},
+			}
+		};
+
+		console.log('body', body);
+
+		return this.httpService.post(`${process.env.VITE_API_BASE_URI}/locations/search`, body);
 	}
 
 	/**
@@ -77,7 +104,19 @@ export class LocationsService {
 	 *     total: number
 	 * }
 	 */
-	public async searchLocations(query: ILocationSearchBody): Promise<{ results: ILocation[], total: number }> {
+	public async searchLocations(query: ILocationSearchBody): Promise<IResults<ILocation>> {
 		return this.httpService.post(`${process.env.VITE_API_BASE_URI}/locations/search`, query);
+	}
+
+	async searchLocationsByMapBounds(lng: number, lat: number, lng2: number, lat2: number): Promise<IResults<ILocation>> {
+		const body: ILocationSearchBody = {
+			geoBoundingBox: {
+				bottom_left: {lat, lon: lng},
+				top_right: {lat: lat2, lon: lng2},
+			},
+			size: 50,
+		};
+
+		return this.httpService.post(`${process.env.VITE_API_BASE_URI}/locations/search`, body);
 	}
 }

@@ -16,16 +16,20 @@
 export interface ILocationSearchBody {
 	city?: string;
 	states?: string[];
-	geoBoundingBox?: {
-		lat: number,
-		lon: number
-	} & ({
-		top: number,
-		left: number,
-		bottom: number,
-		right: number
+	geoBoundingBox?: ({
+		top: LatLong,
+		left: LatLong,
+		bottom: LatLong,
+		right: LatLong
 	} | {
-		bottom_left: number,
-		top_right: number
+		bottom_left: LatLong,
+		top_right: LatLong
 	});
+	size?: number;
+	from?: number;
+}
+
+export interface LatLong {
+	lat: number;
+	lon: number;
 }

@@ -9,7 +9,8 @@ import eslintPlugin from 'vite-plugin-eslint';
 
 export default defineConfig({
 	server: {
-		proxy: {},
+		port: 5174, // Due to a bug in the dev server, we need to set a port. It keeps conflicting with another personal project
+		proxy: {}, // enable https on localhost
 	},
 	plugins: [
 		eslintPlugin(),
@@ -18,6 +19,7 @@ export default defineConfig({
 		reactRouter(),
 		tsconfigPaths(),
 		EnvironmentPlugin([
-			'VITE_API_BASE_URI'
+			'VITE_API_BASE_URI',
+			'VITE_MAP_BOX_API_KEY',
 		])],
 });

@@ -5,7 +5,6 @@ import {
 	Pagination,
 	Typography,
 	Button,
-	AppBar,
 	Paper,
 	Select,
 	MenuItem,
@@ -20,6 +19,8 @@ import {DogCard} from '~/components/DogCard.component';
 import {ISearchDogsQuery} from '~/interfaces/ISearchDogsQuery.interface';
 import {DogSearchForm} from '~/components/DogSearchForm.component';
 import {useLocation, Link} from 'react-router';
+import {ILocation} from '~/interfaces/ILocation.interface';
+import {SearchRouteState} from '~/routes/search.route.state';
 
 export function meta({}: Route.MetaArgs) {
 	return [
@@ -53,12 +54,14 @@ export default function SearchRoute() {
 	const [totalDogResults, setTotalDogResults] = useState(0);
 	const [dogResults, setDogResults] = useState<IDog[] | undefined>(undefined);
 	const dogsService = container.resolve(DogsService);
+	console.log('location.state', location.state);
 
 	const searchForDogs = useCallback((query: ISearchDogsQuery) => {
+		const loc: SearchRouteState | undefined = location.state;
 		setDogResults(undefined); // show loader
 		const queryWithPagination: ISearchDogsQuery = Object.assign({}, query, {
 			from: (currentPage - 1) * resultsPerPage,
-			zipCodes: location.state?.zipCode ? [location.state.zipCode] : undefined,
+			zipCodes: loc?.zipCodes,
 			size: resultsPerPage,
 		} as ISearchDogsQuery);
 		setLastQuery(queryWithPagination);
@@ -66,7 +69,7 @@ export default function SearchRoute() {
 			setTotalDogResults(dogs.total);
 			setDogResultIds(dogs.resultIds);
 		});
-	}, [currentPage, resultsPerPage]);
+	}, [currentPage, resultsPerPage, location]);
 
 	const onSearchFormSubmit = useCallback((query: ISearchDogsQuery) => {
 		setCurrentPage(1);
@@ -122,6 +125,9 @@ export default function SearchRoute() {
 							{dogResults.map((dog) => (
 								<Grid key={dog.id} size={{xs: 12, sm: 6, md: 4}}>
 									<DogCard dog={dog}/>
+
+									{/*This should never show*/}
+									{location.state?.zipCodes.indexOf(dog.zip_code) === -1 && <Typography variant="caption" color="error">This dog is not in the search area</Typography>}
 								</Grid>
 							))}
                         </Grid>}
@@ -129,7 +135,14 @@ export default function SearchRoute() {
 				</Grid>
 			</Grid>
 		</Container>
-		<Container sx={{background: 'white', position: 'sticky', bottom: 0, width: '100%', py: 1}}>
+		<Container sx={{
+			background: 'white',
+			borderRadius: '5px 5px 0 0',
+			position: 'sticky',
+			bottom: 0,
+			width: '100%',
+			py: 1
+		}}>
 			<Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 				<Pagination
 					style={{margin: 'auto'}}

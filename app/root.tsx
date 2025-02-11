@@ -1,7 +1,7 @@
-import "reflect-metadata";
+import 'reflect-metadata';
 
 if (!Reflect) {
-	throw new Error("reflect-metadata is required for tsyringe");
+	throw new Error('reflect-metadata is required for tsyringe');
 }
 
 import {
@@ -37,6 +37,7 @@ export function Layout({children}: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 		<head>
+			<link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet"/>
 			<meta charSet="utf-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<link rel="preconnect" href="https://fonts.googleapis.com"/>
