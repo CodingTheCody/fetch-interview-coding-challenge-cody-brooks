@@ -36,11 +36,13 @@ export default function AuthenticatedLayout() {
 	return <>
 		<TooltipContext value={{enabled: tooltipsEnabled}}>
 			<AppBar position="sticky">
-				<Toolbar >
+				<Toolbar>
 					<Button color="inherit" onClick={handleLogout}>Logout</Button>
 					<span style={{flexGrow: 1}}></span>
 					<span>Developer Tooltips? &nbsp;</span>
-					<Switch aria-label='Developer Tooltips toggle' sx={{backgroundColor: 'background.paper', borderRadius: 3}} checked={tooltipsEnabled} value={tooltipsEnabled} onChange={handleDeveloperTooltipsToggle}/>
+					<Switch inputProps={{'aria-label': 'Developer tooltips switch'}}
+							sx={{backgroundColor: 'background.paper', borderRadius: 3}} checked={tooltipsEnabled}
+							value={tooltipsEnabled} onChange={handleDeveloperTooltipsToggle}/>
 				</Toolbar>
 			</AppBar>
 

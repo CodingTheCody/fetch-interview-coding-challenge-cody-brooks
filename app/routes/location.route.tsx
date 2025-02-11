@@ -118,7 +118,12 @@ export default function LocationSearch() {
                         codes. If you provide the API with a single zip code, it works, but providing multiples makes it
                         return no results.
                     </Typography>
-
+					<Typography>
+						For example. If you call
+                        https://frontend-take-home-service.fetch.com/dogs/search?zipCodes=00501,C00544",
+						you will get 0 results. But if you call "https://frontend-take-home-service.fetch.com/dogs/search?zipCodes=00501,C00544",
+						you will get results.
+					</Typography>
                     <TriggerableTooltip title={'This is an actual representation of me crying.'}>
                         <img src="crying.gif" width={200} alt="crying"/>
                     </TriggerableTooltip>

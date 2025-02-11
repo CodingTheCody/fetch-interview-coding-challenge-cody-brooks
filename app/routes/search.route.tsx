@@ -149,17 +149,20 @@ export default function SearchRoute() {
 					page={currentPage}
 					count={Math.ceil(totalDogResults / resultsPerPage)}
 					onChange={handlePageChange}
+					aria-label="Pagination"
 				/>
 				<Select
+					label='Results per page'
+					aria-label='Results per page'
 					size="small"
 					value={resultsPerPage}
 					onChange={handleResultsPerPageChange}
 					style={{marginLeft: '0.5em', width: 100}}
 				>
-					<MenuItem value={10}>10</MenuItem>
-					<MenuItem value={20}>20</MenuItem>
-					<MenuItem value={50}>50</MenuItem>
-					<MenuItem value={100}>100</MenuItem>
+					<MenuItem value={10} role="option" aria-selected={resultsPerPage === 10}>10</MenuItem>
+					<MenuItem value={20} role="option" aria-selected={resultsPerPage === 20}>20</MenuItem>
+					<MenuItem value={50} role="option" aria-selected={resultsPerPage === 50}>50</MenuItem>
+					<MenuItem value={100} role="option" aria-selected={resultsPerPage === 100}>100</MenuItem>
 				</Select>
 			</Box>
 		</Container>
