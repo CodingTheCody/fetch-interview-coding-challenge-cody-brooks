@@ -1,0 +1,35 @@
+.mapbox-gl-container {
+  width: 100%;
+  min-height: 500px;
+}
+
+.mapboxgl-marker {
+  height: 32px;
+  width: 32px;
+  z-index: 5;
+  border: 1px solid black;
+  border-radius: 50%;
+  background-color: #305bad;
+  cursor: pointer;
+
+  &.dog {
+    background-image: url("small-dog-icon.png");
+    background-position: center;
+    background-size: 32px;
+  }
+}
+
+.map-location-search {
+  position: relative;
+  height: 500px;
+  margin-bottom: 15px;
+}
+
+.map-location-search-button {
+  position: absolute;
+  left: 50%;
+  top: 45px;
+  z-index: 500;
+  background: white !important;
+  transform: translateX(-50%);
+}
