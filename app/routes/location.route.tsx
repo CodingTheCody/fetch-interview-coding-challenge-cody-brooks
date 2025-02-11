@@ -1,5 +1,5 @@
 import {useState, useEffect, useDeferredValue, useMemo, useCallback, SyntheticEvent, useRef} from 'react';
-import {Autocomplete, TextField, CircularProgress, Box, Button, MenuItem} from '@mui/material';
+import {Autocomplete, TextField, CircularProgress, Box, Button, MenuItem, Typography} from '@mui/material';
 import {ILocationSearchBody} from '~/interfaces/ILocationSearchBody.interface';
 import {container} from 'tsyringe';
 import {ILocation} from '~/interfaces/ILocation.interface';
@@ -83,40 +83,51 @@ export default function LocationSearch() {
 			<br/>
 			<p>Please enter a city or state abbreviation to search for locations:</p>
 			<br/>
-			<TriggerableTooltip title="The API for searching locations seems to be off, so I'm only able to search for a specific zipcode. The bottom_left and top_right properties do not specify whether it's in degrees, miles, kilometers, but no matter what value I seem to put in, it returns a seemingly random list of locations.">
-				<Autocomplete
-					freeSolo
-					options={results.map(location => `${location.city}, ${location.state} (${location.zip_code})`)}
-					loading={loading}
-					onChange={handleLocationSelect}
-					onInputChange={(event, newValue) => setQuery(newValue)}
-					renderOption={(props, option) => (<MenuItem {...props}>{option}</MenuItem>)}
-					renderInput={(params) => (
-						<TextField
-							{...params}
-							label="Enter City or State (Ex: CA)"
-							fullWidth
-							margin="normal"
-							slotProps={{
-								input: {
-									...params.InputProps,
-									endAdornment: (
-										<>
-											{loading ? <CircularProgress size={20}/> : null}
-											{params.InputProps.endAdornment}
-										</>
-									),
-								},
-							}}
-						/>
-					)}
-				/>
-			</TriggerableTooltip>
+			<Autocomplete
+				freeSolo
+				options={results.map(location => `${location.city}, ${location.state} (${location.zip_code})`)}
+				loading={loading}
+				onChange={handleLocationSelect}
+				onInputChange={(event, newValue) => setQuery(newValue)}
+				renderOption={(props, option) => (<MenuItem {...props}>{option}</MenuItem>)}
+				renderInput={(params) => (
+					<TextField
+						{...params}
+						label="Enter City or State (Ex: CA)"
+						fullWidth
+						margin="normal"
+						slotProps={{
+							input: {
+								...params.InputProps,
+								endAdornment: (
+									<>
+										{loading ? <CircularProgress size={20}/> : null}
+										{params.InputProps.endAdornment}
+									</>
+								),
+							},
+						}}
+					/>
+				)}
+			/>
 			{process.env.VITE_MAP_BOX_API_KEY &&
-                <TriggerableTooltip
-                    title="By the time I realized I could make all the dogs searchable with their images on this map, I was already too deep. But it would have been cool to do">
-					<MapLocationSearchComponent/>
-                </TriggerableTooltip>
+                <>
+                    <Typography>
+                        I wanted this map below to work, but unfortunately the API doesn't allow for searching on
+                        multiple zip
+                        codes. If you provide the API with a single zip code, it works, but providing multiples makes it
+                        return no results.
+                    </Typography>
+
+                    <TriggerableTooltip title={'This is an actual representation of me crying.'}>
+                        <img src="crying.gif" width={200} alt="crying"/>
+                    </TriggerableTooltip>
+
+                    <TriggerableTooltip
+                        title="By the time I realized I could make all the dogs searchable with their images on this map, I was already too deep. But it would have been cool to do">
+                        <MapLocationSearchComponent/>
+                    </TriggerableTooltip>
+                </>
 			}
 		</Box>
 	);
