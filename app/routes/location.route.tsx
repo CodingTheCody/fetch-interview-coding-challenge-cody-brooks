@@ -1,4 +1,4 @@
-import {useState, useEffect, useDeferredValue, useMemo, useCallback, SyntheticEvent, useRef} from 'react';
+import {useState, useEffect, useDeferredValue, useMemo, useCallback, SyntheticEvent} from 'react';
 import {Autocomplete, TextField, CircularProgress, Box, Button, MenuItem, Typography} from '@mui/material';
 import {ILocationSearchBody} from '~/interfaces/ILocationSearchBody.interface';
 import {container} from 'tsyringe';
