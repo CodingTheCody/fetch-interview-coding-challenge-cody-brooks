@@ -4,7 +4,7 @@ import React from 'react';
 
 export const DogCard: React.FC<{ dog: IDog }> = ({ dog }) => (
 	<Card>
-		<CardMedia style={{maxHeight: '140px'}} component="img" height="140" image={dog.img} alt={dog.name} />
+		<CardMedia style={{maxHeight: '140px'}} component="img" height="140" image={dog.img} alt={'Dog named ' + dog.name} />
 		<CardContent>
 			<Typography variant="h6">{dog.name}</Typography>
 			<Typography>Breed: {dog.breed}</Typography>
