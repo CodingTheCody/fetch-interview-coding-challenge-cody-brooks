@@ -113,7 +113,7 @@ export default function LocationSearch() {
 					<Typography>
 						For example. If you call
                         https://frontend-take-home-service.fetch.com/dogs/search?zipCodes=00501,C00544",
-						you will get 0 results. But if you call "https://frontend-take-home-service.fetch.com/dogs/search?zipCodes=00501,C00544",
+						you will get 0 results. But if you call "https://frontend-take-home-service.fetch.com/dogs/search?zipCodes=00501",
 						you will get results.
 					</Typography>
                     <TriggerableTooltip title={'This is an actual representation of me crying.'}>
