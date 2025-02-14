@@ -20,12 +20,10 @@ export function BreedsFilter({setSelectedBreeds, selectedBreeds, breeds}: {
 			<TriggerableTooltip
 				title="I was not able to have it search for multiple breeds, but I was able to have it search for one breed at a time. This is an issue with the API.">
 				<Autocomplete
-					aria-label="Breeds"
+					freeSolo
 					multiple
 					value={selectedBreeds}
 					options={breeds as string[]}
-					clearOnBlur={false}
-					disableCloseOnSelect={false}
 					inputValue={breedsInputValue}
 					onInputChange={(event, newInputValue) => {
 						setBreedsInputValue(newInputValue);
@@ -34,15 +32,13 @@ export function BreedsFilter({setSelectedBreeds, selectedBreeds, breeds}: {
 						setSelectedBreeds(values);
 					}}
 					renderInput={(params) => (
-						<TextField slotProps={{ input: { 'aria-label': 'Breeds input' } }} {...params} label="Breeds" variant="outlined"/>
+						<TextField {...params} label="Breeds" variant="outlined"/>
 					)}
-					renderOption={(props, option, { selected }) => (
+					renderOption={(props, option) => (
 						<MenuItem
 							{...props}
 							key={option}
 							onClick={(event) => handleSelect(event as never, option)}
-							role="option"
-							aria-selected={selected}
 						>
 							{option}
 						</MenuItem>
@@ -52,3 +48,4 @@ export function BreedsFilter({setSelectedBreeds, selectedBreeds, breeds}: {
 		</Grid2>
 	);
 }
+
