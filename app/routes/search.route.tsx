@@ -8,7 +8,8 @@ import {
 	Paper,
 	Select,
 	MenuItem,
-	SelectChangeEvent, Box
+	SelectChangeEvent, Box,
+    Badge
 } from '@mui/material';
 import React, {useState, useEffect, useCallback} from 'react';
 import {styled} from '@mui/system';
@@ -121,7 +122,8 @@ export default function SearchRoute() {
 						<Item style={{position: 'sticky'}} sx={{position: 'sticky', top: 64}}>
 							<DogSearchForm defaultQuery={DEFAULT_QUERY} onSubmit={onSearchFormSubmit}/>
 							<Item style={{marginTop: 15}} sx={{}}>
-								<Button variant='outlined' disabled={matchedDogIds.size === 0} onClick={findMyMatch}>Find My Match</Button>
+								<Button variant='outlined' disabled={matchedDogIds.size === 0} onClick={findMyMatch}>Find My Match &nbsp;&nbsp;&nbsp; <Badge badgeContent={matchedDogIds.size} color="primary">
+								</Badge></Button>
 							</Item>
 						</Item>
 					</Grid>
