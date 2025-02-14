@@ -63,4 +63,8 @@ export class DogsService {
 	public async getDogsByDogIds(dogIds: string[]): Promise<IDog[]> {
 		return this.httpService.post<IDog[]>(`${process.env.VITE_API_BASE_URI}/dogs`, dogIds);
 	}
+
+	public async matchWithDog(dogIds: string[]) {
+		return this.httpService.post<{ match: string }>(`${process.env.VITE_API_BASE_URI}/dogs/match`, dogIds);
+	}
 }
