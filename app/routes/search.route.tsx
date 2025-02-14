@@ -9,7 +9,7 @@ import {
 	Select,
 	MenuItem,
 	SelectChangeEvent, Box,
-    Badge
+	Badge
 } from '@mui/material';
 import React, {useState, useEffect, useCallback} from 'react';
 import {styled} from '@mui/system';
@@ -65,6 +65,12 @@ export default function SearchRoute() {
 		setMatchedDogIds(newSet);
 	}, [matchedDogIds]);
 
+	const removeDogFromMatched = useCallback((dogId: string) => {
+		const newSet = new Set<string>(matchedDogIds);
+		newSet.delete(dogId);
+		setMatchedDogIds(newSet);
+	}, [matchedDogIds]);
+
 	const searchForDogs = useCallback((query: ISearchDogsQuery) => {
 		const loc: SearchRouteState | undefined = location.state;
 		setDogResults(undefined); // show loader
@@ -114,16 +120,21 @@ export default function SearchRoute() {
 	}, [currentPage, resultsPerPage]);
 
 	return <>
-		<DogMatchContext value={{dogIds: matchedDogIds, addDogId: addDogIdToMatched}}>
-			<MatchedDogModal dogId={matchedDogId} onClose={() => setMatchedDogId(undefined)}/>
+		<DogMatchContext value={{dogIds: matchedDogIds, addDogId: addDogIdToMatched, removeDogId: removeDogFromMatched}}>
+			<MatchedDogModal dogId={matchedDogId} onClose={() => {
+				setMatchedDogId(undefined);
+				setMatchedDogIds(new Set<string>());
+			}}/>
 			<Container className="home-route">
 				<Grid container spacing={2}>
 					<Grid size={{xs: 12, md: 4}}>
 						<Item style={{position: 'sticky'}} sx={{position: 'sticky', top: 64}}>
 							<DogSearchForm defaultQuery={DEFAULT_QUERY} onSubmit={onSearchFormSubmit}/>
 							<Item style={{marginTop: 15}} sx={{}}>
-								<Button variant='outlined' disabled={matchedDogIds.size === 0} onClick={findMyMatch}>Find My Match &nbsp;&nbsp;&nbsp; <Badge badgeContent={matchedDogIds.size} color="primary">
-								</Badge></Button>
+								<Button variant="outlined" disabled={matchedDogIds.size === 0} onClick={findMyMatch}>Find
+									My Match &nbsp;&nbsp;&nbsp; <Badge badgeContent={matchedDogIds.size}
+																	   color="primary">
+									</Badge></Button>
 							</Item>
 						</Item>
 					</Grid>

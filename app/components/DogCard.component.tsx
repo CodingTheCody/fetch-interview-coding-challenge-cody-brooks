@@ -8,7 +8,7 @@ export const DogCard: React.FC<{ dog: IDog, hideMatchButton?: boolean }> = ({dog
 	const isMatched = useMemo(() => dogMatchContext.dogIds.has(dog.id), [dogMatchContext.dogIds, dog.id]);
 
 	const handleMatch = () => {
-		dogMatchContext.addDogId(dog.id);
+		isMatched ? dogMatchContext.removeDogId(dog.id) : dogMatchContext.addDogId(dog.id);
 	};
 
 	return (
@@ -22,7 +22,7 @@ export const DogCard: React.FC<{ dog: IDog, hideMatchButton?: boolean }> = ({dog
 				<Typography>Zip Code: {dog.zip_code}</Typography>
 
 				{!hideMatchButton &&
-                    <Button variant="outlined" disabled={isMatched} onClick={handleMatch}>Match</Button>}
+                    <Button variant="outlined" color={isMatched ? 'warning' : 'primary'} onClick={handleMatch}>{isMatched ? 'Unmatch' : 'Match'}</Button>}
 			</CardContent>
 		</Card>
 	);
