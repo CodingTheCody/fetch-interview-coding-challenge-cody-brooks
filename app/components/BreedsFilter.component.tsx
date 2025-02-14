@@ -13,6 +13,7 @@ export function BreedsFilter({setSelectedBreeds, selectedBreeds, breeds}: {
 		if (!selectedBreeds.includes(breed)) {
 			setSelectedBreeds([...selectedBreeds, breed]);
 		}
+		setBreedsInputValue('');
 	};
 
 	return (
