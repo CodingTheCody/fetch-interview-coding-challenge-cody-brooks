@@ -4,6 +4,7 @@ import {type IDog} from '~/interfaces/IDog.interface';
 import {DogsService} from '~/services/Dogs.service';
 import {container} from 'tsyringe';
 import {DogCard} from '~/components/DogCard.component';
+import ReactConfetti from 'react-confetti';
 
 const style = {
 	position: 'absolute',
@@ -19,7 +20,7 @@ const style = {
 	pb: 3,
 };
 
-export function MatchedDogModal({dogId, onClose}: { dogId: string|undefined, onClose: () => void }) {
+export function MatchedDogModal({dogId, onClose}: { dogId: string | undefined, onClose: () => void }) {
 	const [dogDetails, setDogDetails] = useState<IDog | undefined>(undefined);
 	const dogsService = useMemo(() => container.resolve(DogsService), []);
 
@@ -34,6 +35,8 @@ export function MatchedDogModal({dogId, onClose}: { dogId: string|undefined, onC
 	return <Modal open={true} onClose={onClose} aria-labelledby="dog-match-modal"
 				  aria-describedby="dog-match-modal-description">
 		<Box sx={{...style}}>
+			<ReactConfetti width={400} height={400} recycle={false} numberOfPieces={200}>
+			</ReactConfetti>
 			<Typography id="modal-modal-title" variant="h6" component="h2">
 				Here is your future loved one!
 			</Typography>
